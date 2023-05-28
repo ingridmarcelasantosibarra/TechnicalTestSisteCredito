@@ -2,12 +2,10 @@ package com.ingridsantos.technicaltestsistecredito.domain.usecases
 
 import com.ingridsantos.technicaltestsistecredito.domain.models.UserDomain
 import com.ingridsantos.technicaltestsistecredito.domain.repositories.UsersRepository
-import com.ingridsantos.technicaltestsistecredito.domain.repositories.local.LocalUsersRepository
 import javax.inject.Inject
 
 class UsersUC @Inject constructor(
-    private val usersRepository: UsersRepository,
-    private val localUsersRepository: LocalUsersRepository
+    private val usersRepository: UsersRepository
 ) {
 
     operator fun invoke() = usersRepository.getUsers()
@@ -16,12 +14,12 @@ class UsersUC @Inject constructor(
         filter: CharSequence,
         users: List<UserDomain>?
     ): List<UserDomain> {
-        return if (users.isNullOrEmpty().not()) {
+        return if (users.isNullOrEmpty().not() && filter.isNotEmpty()) {
             users!!.filter {
                 it.username.startsWith(filter, true)
             }
         } else {
-            listOf()
+            users ?: listOf()
         }
     }
 }

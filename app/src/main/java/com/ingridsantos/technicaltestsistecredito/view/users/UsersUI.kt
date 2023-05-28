@@ -50,20 +50,12 @@ fun UsersUI(
         searchText = searchText,
         placeholderText = "Search User",
         onSearchTextChanged = {
-            println("--- $it")
-
             searchText = it
-            viewModel.us
-           /* if (it.isEmpty()) {
-                viewModel.getUsers()
-            }else {
-                viewModel.getFilterReference(it, state.result)
-
-            }*/
+            viewModel.onEvent(UsersUIEvent.FilterUser(it, state.saveUsers))
         },
         onClearClick = {
             searchText = ""
-            viewModel.onClearClick()
+            viewModel.onEvent(UsersUIEvent.OnClear)
         }
     ) {
         if (state.isError.isNotEmpty()) {
@@ -81,7 +73,7 @@ fun UsersUI(
         }
 
         if (state.result.isNotEmpty()) {
-             Users(userDomains = state.result) {
+            Users(userDomains = state.result) {
                 onClick.invoke(it)
             }
         } else {

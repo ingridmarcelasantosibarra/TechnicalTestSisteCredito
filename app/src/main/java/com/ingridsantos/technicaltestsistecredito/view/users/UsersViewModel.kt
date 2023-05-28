@@ -38,7 +38,7 @@ class UsersViewModel @Inject constructor(
                 }
                 .collect {
                     if (it.isNotEmpty()) {
-                        _usersState.value = UsersModel(result = it)
+                        _usersState.value = _usersState.value.copy(saveUsers = it, result = it)
                         localUsersUC.insertAll(it)
                     }
                 }
@@ -48,49 +48,38 @@ class UsersViewModel @Inject constructor(
     fun getUsers() {
         viewModelScope.launch {
             localUsersUC.getUsers().collect {
-                _usersState.value = UsersModel(saveUsers = it)
                 if (it.isEmpty()) {
                     getUsersNetwork()
                 } else {
-                    _usersState.value = UsersModel(isLoading = false, result = it)
+                    _usersState.value = _usersState.value.copy(saveUsers = it, result = it)
                 }
             }
         }
     }
 
-    fun getFilterReference(
+    private fun getFilterReference(
         filter: String,
         users: List<UserDomain>?
     ) {
-        viewModelScope.launch {
-
-            val users = userUC.filterUsers(
+        val usersResult = if (filter.isNotEmpty()) {
+            userUC.filterUsers(
                 filter = filter,
                 users = users
             )
-
-            _usersState.value = _usersState.value.copy(result = users)
+        } else {
+            users ?: listOf()
         }
-    }
 
-    fun onClearClick() {
-        viewModelScope.launch {
-            localUsersUC.getUsers().collect {
-                _usersState.value = UsersModel(result = it)
-            }
-        }
+        _usersState.value = _usersState.value.copy(result = usersResult)
     }
 
     fun onEvent(event: UsersUIEvent) {
-        when(event) {
-           /* is UIEvent.AccountChanged -> {
-                _uiState.value = _uiState.value.copy(
-                    accountNumber = event.account
-                )
-            }
-           */
+        when (event) {
             is UsersUIEvent.FilterUser -> {
-                getFilterReference(filter = event.filter, listOf())
+                getFilterReference(filter = event.filter, event.users)
+            }
+            UsersUIEvent.OnClear -> {
+                getUsers()
             }
         }
     }
