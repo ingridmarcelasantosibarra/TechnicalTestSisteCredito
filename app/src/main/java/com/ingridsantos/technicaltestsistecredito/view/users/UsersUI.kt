@@ -39,12 +39,15 @@ fun UsersUI(
     onClick: (UserDomain) -> Unit,
     viewModel: UsersViewModel = hiltViewModel()
 ) {
+    var searchText by rememberSaveable { mutableStateOf("") }
+
     LaunchedEffect(Unit) {
-        viewModel.getUsers()
+        if (searchText.isEmpty()) {
+            viewModel.getUsers()
+        }
     }
 
     val state by viewModel.usersState.collectAsState()
-    var searchText by rememberSaveable { mutableStateOf("") }
 
     SearchBarUI(
         searchText = searchText,
