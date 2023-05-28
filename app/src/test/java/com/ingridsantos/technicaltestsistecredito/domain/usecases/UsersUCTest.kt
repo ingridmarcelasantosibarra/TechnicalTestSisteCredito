@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -95,5 +96,10 @@ class UsersUCTest {
         val result = usersUC.filterUsers("m", users)
 
         assertEquals(result, listOf<UserDomain>())
+    }
+
+    @After
+    fun tearDown() {
+        confirmVerified(userRepository)
     }
 }

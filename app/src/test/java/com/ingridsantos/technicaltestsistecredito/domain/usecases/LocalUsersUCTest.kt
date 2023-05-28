@@ -10,6 +10,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
@@ -46,11 +47,13 @@ class LocalUsersUCTest {
             val user = mockk<UserDomain>()
             val users = listOf(user)
 
+            coEvery { localUsersRepository.deleteAll() } returns 1
             coEvery { localUsersRepository.insertAll(users) } returns usersSuccess
 
             localUsersUC.insertAll(users)
 
             coVerify { localUsersRepository.insertAll(users) }
+            coVerify { localUsersRepository.deleteAll() }
             confirmVerified(localUsersRepository, user)
         }
     }
@@ -65,5 +68,10 @@ class LocalUsersUCTest {
 
             coVerify { localUsersRepository.deleteAll() }
         }
+    }
+
+    @After
+    fun tearDown() {
+        confirmVerified(localUsersRepository)
     }
 }

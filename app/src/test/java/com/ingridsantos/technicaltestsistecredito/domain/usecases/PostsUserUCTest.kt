@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -38,7 +39,7 @@ class PostsUserUCTest {
             }
 
             verify { postsUserRepository.getPosts(1) }
-            confirmVerified(postsUserRepository)
+            confirmVerified(post)
         }
     }
 
@@ -58,5 +59,10 @@ class PostsUserUCTest {
 
             verify { postsUserRepository.getPosts(1) }
         }
+    }
+
+    @After
+    fun tearDown() {
+        confirmVerified(postsUserRepository)
     }
 }

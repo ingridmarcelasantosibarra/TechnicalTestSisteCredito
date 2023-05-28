@@ -1,14 +1,14 @@
-package com.ingridsantos.ceibatechnicaltest.core
+package com.ingridsantos.technicaltestsistecredito.core
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
 class CoroutinesTestRule(
     val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()

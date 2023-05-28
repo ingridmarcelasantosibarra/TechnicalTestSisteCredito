@@ -86,8 +86,6 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.2'
 
     //Test
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'io.mockk:mockk:1.12.1'

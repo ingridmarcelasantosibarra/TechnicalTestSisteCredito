@@ -12,8 +12,9 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -51,7 +52,7 @@ class PostsUserRepositoryImplTest {
 
         coVerify { postsUserApi.getPosts(1) }
         verify { postsDTO.toPost() }
-        confirmVerified(postsDTO, post, postsUserApi)
+        confirmVerified(postsDTO, post)
     }
 
     @Test
@@ -66,6 +67,10 @@ class PostsUserRepositoryImplTest {
 
         coVerify { postsUserApi.getPosts(1) }
         verify { domainExceptionRepository.manageError(any()) }
+    }
+
+    @After
+    fun tearDown() {
         confirmVerified(postsUserApi)
     }
 }

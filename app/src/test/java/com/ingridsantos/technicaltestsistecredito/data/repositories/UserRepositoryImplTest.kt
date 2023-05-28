@@ -16,9 +16,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import retrofit2.HttpException
 
 class UserRepositoryImplTest {
@@ -28,7 +28,7 @@ class UserRepositoryImplTest {
 
     private lateinit var usersRepositoryImpl: UsersRepositoryImpl
 
-    @BeforeEach
+    @Before
     fun setup() {
         usersRepositoryImpl = UsersRepositoryImpl(
             userApi = userApi,
@@ -37,7 +37,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    fun getPosts() = runTest {
+    fun getPosts() = runBlocking {
         val users = mockk<UserDomain>()
         val userDTO = mockk<UserDTO>()
         val listUserDTO = listOf(userDTO)
@@ -56,7 +56,7 @@ class UserRepositoryImplTest {
     }
 
     @Test
-    fun getUsersReturnException() = runTest {
+    fun getUsersReturnException() = runBlocking {
         val exception: HttpException = mockk()
         coEvery { userApi.getUsers() } throws exception
         every { domainExceptionRepository.manageError(any()) } returns UnknownError()
@@ -70,7 +70,7 @@ class UserRepositoryImplTest {
         confirmVerified(exception)
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
         confirmVerified(userApi, domainExceptionRepository)
     }
