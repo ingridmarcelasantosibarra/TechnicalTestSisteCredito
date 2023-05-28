@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TechnicalTestSisteCredito</string>
+    <string name="error_time_out">El tiempo de la petición ha expirado</string>
+    <string name="error_internal_error_exception">Hemos tenido problemas con el servidor, intentalo nuevamente</string>
+    <string name="error_parsing_error">Error al transformar los datos en la capa de datos</string>
+    <string name="error_internet_connection">Error en la conexión de internet, intentalo de nuevo en un momento</string>
+    <string name="error_some_wrong">Ha ocurrido un error inesperado, por favor intenta más tarde.</string>
+</resources>
